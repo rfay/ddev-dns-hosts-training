@@ -4,14 +4,13 @@
 <img src="images/ddev-logo.svg" alt="DDEV Logo" class="ddev-logo">
 
 
-Note:
-Introduce the goal: understand name resolution basics and how DDEV uses them. Informal, hands-on tone.
-
 ---
 
-## Why This Matters
-- Local dev uses hostnames (e.g., `myproj.ddev.site`)
-- If names don’t resolve → sites don’t load
+## Why DNS/Hostname Resolution Matters
+- It's important to "normal" hostnames in local development instead of weird IP addreses with ports.
+- DDEV uses hostnames: `myproject.ddev.site` 
+- and URLs like `https://myproject.ddev.site`
+- Your browser uses the hostname in the URL to figure out where to go for the content.
 - Understanding resolution = faster troubleshooting
 
 Note:
@@ -20,6 +19,7 @@ Consider demoing a non-existent hostname for a quick failure example.
 ---
 
 ## What is DNS?
+- "Domain Name System"
 - “Phone book” that maps names → IPs
 - Basic flow: Root → TLD → Authoritative server
 - Recursive resolvers, caching, TTLs
@@ -44,10 +44,10 @@ Mention OS differences briefly and that hosts file usually wins over DNS.
 - macOS/Linux: `/etc/hosts`
 - Windows: `C:\Windows\System32\drivers\etc\hosts`
 - Needs elevated permissions to edit
-- **No wildcards** supported
+- **No wildcards** supported with hosts file
 
 Note:
-Show an example: `127.0.0.1 foo.local` then ping/browse.
+cat hosts file (has 3.example.com): `127.0.0.1 foo.local` then ping/browse.
 
 ---
 
@@ -63,7 +63,9 @@ Clarify difference: short names vs FQDNs, and why teams might add explicit names
 
 ## How DDEV Resolves by Default
 - `*.ddev.site` → `127.0.0.1` (loopback)
-- DDEV-router uses hostname to route to the correct project
+- The `ddev.site` DNS is managed by DDEV organization
+- Mostly only the browser cares about the lookup and resolution
+- but then `ddev-router` (traefik) uses hostname in the URL to route to the correct project
 - Works out-of-the-box (no custom DNS setup)
 
 Note:
