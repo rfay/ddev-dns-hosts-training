@@ -33,6 +33,7 @@ Set expectations - this is practical, not deep DNS theory. Focus on DDEV-specifi
 
 
 ---
+
 ## Why DNS/Hostname Resolution Matters
 - It's important to use "normal" hostnames in local development instead of weird IP addresses with ports.
 - DDEV uses hostnames: `myproject.ddev.site` 
