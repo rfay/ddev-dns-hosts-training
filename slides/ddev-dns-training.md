@@ -61,11 +61,22 @@ Clarify difference: short names vs FQDNs, and why teams might add explicit names
 
 ---
 
-## How DDEV Resolves by Default
+## URL Components
+- **Protocol**: `http://` or `https://`
+- **Domain**: `example.com`
+- **Port**: `80` or `443` (omitted if default)
+- **Path**: `/` or `/path/to/page`
+- **Full URL**: `https://example.com/path` (port 443)
+
+
+---
+
+## Default Resolution Setup
 - `*.ddev.site` → `127.0.0.1` (loopback)
-- The `ddev.site` DNS is managed by DDEV organization
-- Mostly only the browser cares about the lookup and resolution
-- but then `ddev-router` (traefik) uses hostname in the URL to route to the correct project
+- The `ddev.site` DNS is managed by DDEV
+- Mostly only the browser cares about the resolution
+- But after browser looks up 127.0.0.1, it delivers that to the `ddev-router`
+- Then `ddev-router` (traefik) uses hostname in the URL to route to the correct project
 - Works out-of-the-box (no custom DNS setup)
 
 Note:
@@ -75,7 +86,7 @@ Quick diagram verbally: Browser → 127.0.0.1 → DDEV router → project web co
 
 ## When DNS Isn’t Enough
 - Offline usage (no DNS lookup)
-- Corporate DNS blocks wildcard queries
+- Fritzbox Routers (Aargh!)
 - **Fallback**: hosts file entries for the project
 
 Note:
@@ -125,11 +136,11 @@ Tie this to least-privilege discussion. Only hosts updates need elevation.
 ---
 
 ## Troubleshooting Checklist
-- `ping test.ddev.site` → expect `127.0.0.1`
+- `ping xxx.ddev.site` → expect `127.0.0.1`
 - Inspect hosts file entries
 - Flush DNS cache
 - Check VPN / corporate DNS / Zscaler
-- Remember: **no wildcard** in hosts file
+- Remember: **no wildcards** in hosts file
 
 ```bash
 # Examples
@@ -140,16 +151,12 @@ sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
 # On Windows (Admin)
 ipconfig /flushdns
 ```
-Note:
-Have a prepared “broken” config to fix live.
 
----
 
 ## Best Practices
-- Stick with defaults unless needed
+- Use the defaults! `ddev.site` with DNS lookup
 - Prefer DNS (`use_dns_when_possible: true`)
 - Avoid collisions with real domains
-- Keep hosts clean & consistent across team
 
 Note:
 Provide a short team checklist at the end or as a gist.
@@ -157,22 +164,22 @@ Provide a short team checklist at the end or as a gist.
 ---
 
 ## Extra (If Time)
+- `ddev share` (with ngrok)
+- Tailscale for DDEV
 - Local DNS servers (dnsmasq, etc.)
 - HTTPS certs with custom domains
-- DNS over HTTPS/DoT
-- Cross-OS quirks (macOS vs Linux vs Windows)
 
 Note:
 Optional deep dives; avoid rabbit holes if time is short.
 
 ---
 
-## References (Pre‑Reading)
+## References
 - DDEV Name Resolution & Wildcards  
   https://ddev.com/blog/ddev-name-resolution-wildcards/
-- DDEV Hostname Security Improvements  
+- `ddev-hostname` Security Improvements  
   https://ddev.com/blog/ddev-hostname-security-improvements/
-- Trainings category  
+- DDEV Contributor trainings  
   https://ddev.com/blog/category/training/
 
 Note:
@@ -180,7 +187,3 @@ Consider sending these links ahead of the session.
 
 ---
 
-<!-- .slide: data-background-color="#0b2d4d" -->
-
-# **Q&A + Hands‑On**
-<img src="https://raw.githubusercontent.com/ddev/ddev/main/docs/content/developers/logos/SVG/DDEV-LogoWordmark.svg" alt="DDEV" style="height:56px;margin-top:24px;">
