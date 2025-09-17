@@ -6,8 +6,35 @@
 
 ---
 
+## Training Overview
+
+**Goal**: Understand how DDEV resolves hostnames and troubleshoot when things go wrong
+
+**What we'll cover**:
+- How URLs and DNS work (basics)
+- DDEV's default resolution (*.ddev.site) 
+- When DNS fails and hosts file fallback
+- Key configuration options
+- Troubleshooting common issues
+
+**Hands-on**: We'll demo broken setups and fix them together
+
+Note:
+Set expectations - this is practical, not deep DNS theory. Focus on DDEV-specific scenarios.
+
+---
+
+## How URLs work
+- **Protocol**: `http://` or `https://`
+- **Domain**: `example.com`
+- **Port**: `80` or `443` (omitted if default)
+- **Path**: `/` or `/path/to/page`
+- **Full URL**: `https://example.com/path` (port 443)
+
+
+---
 ## Why DNS/Hostname Resolution Matters
-- It's important to "normal" hostnames in local development instead of weird IP addreses with ports.
+- It's important to use "normal" hostnames in local development instead of weird IP addresses with ports.
 - DDEV uses hostnames: `myproject.ddev.site` 
 - and URLs like `https://myproject.ddev.site`
 - Your browser uses the hostname in the URL to figure out where to go for the content.
@@ -47,7 +74,7 @@ Mention OS differences briefly and that hosts file usually wins over DNS.
 - **No wildcards** supported with hosts file
 
 Note:
-cat hosts file (has 3.example.com): `127.0.0.1 foo.local` then ping/browse.
+`cat /etc/hosts` to show 3.example.com
 
 ---
 
@@ -57,17 +84,7 @@ cat hosts file (has 3.example.com): `127.0.0.1 foo.local` then ping/browse.
 - DDEV config: `additional_hostnames`, `additional_fqdns`
 
 Note:
-Clarify difference: short names vs FQDNs, and why teams might add explicit names.
-
----
-
-## URL Components
-- **Protocol**: `http://` or `https://`
-- **Domain**: `example.com`
-- **Port**: `80` or `443` (omitted if default)
-- **Path**: `/` or `/path/to/page`
-- **Full URL**: `https://example.com/path` (port 443)
-
+Clarify the difference: short names vs FQDNs, and why teams might add explicit names.
 
 ---
 
@@ -87,6 +104,7 @@ Quick diagram verbally: Browser → 127.0.0.1 → DDEV router → project web co
 ## When DNS Isn’t Enough
 - Offline usage (no DNS lookup)
 - Fritzbox Routers (Aargh!)
+- Broken or otherwise unavailable DNS
 - **Fallback**: hosts file entries for the project
 
 Note:
@@ -98,7 +116,7 @@ This is where explicit additional hostnames help.
 - `project_tld`: change `.ddev.site`
 - `use_dns_when_possible: true|false`
 - `additional_hostnames` (short)
-- `additional_fqdns` (FQDNs)
+- `additional_fqdns` (Avoid real sites!)
 
 ```yaml
 # .ddev/config.yaml (excerpt)
@@ -108,20 +126,10 @@ additional_hostnames:
   - admin
   - api
 additional_fqdns:
-  - shop.example.test
+  - shop.example.com
 ```
 Note:
 Explain practical scenarios and remind that hosts fallback doesn’t support wildcards.
-
----
-
-## Security Considerations
-- **DNS rebinding** risks (malicious DNS → localhost)
-- Hosts file can override real domains (dangerous if careless)
-- Principle of least privilege
-
-Note:
-Encourage attendees to avoid “real” production domains in local configs.
 
 ---
 
