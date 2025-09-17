@@ -8,4 +8,4 @@ The framework here is [revealjs](https://revealjs.com/), based on markdown, easy
 
 ## 🚀 View the Presentation
 
-**👉 [View Live Presentation](https://rfay.github.io/ddev-dns-training/)**
+**👉 [View Live Presentation](https://rfay.github.io/ddev-dns-hosts-training/)**
