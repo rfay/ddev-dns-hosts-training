@@ -23,29 +23,19 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
       
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm ci
-      
     - name: Setup Pages
       uses: actions/configure-pages@v4
       
     - name: Build presentation
       run: |
         # Copy all files needed for the presentation
-        mkdir -p _site/node_modules
+        mkdir -p _site
         # Disable Jekyll processing on GitHub Pages
         touch _site/.nojekyll
         cp index.html _site/
         cp -r slides _site/
         cp -r css _site/
         cp -r images _site/
-        cp -r node_modules/reveal.js _site/node_modules/
         
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
