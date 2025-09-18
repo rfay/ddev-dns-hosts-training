@@ -49,8 +49,6 @@ Consider demoing a non-existent hostname for a quick failure example.
 ## What is DNS?
 - "Domain Name System"
 - “Phone book” that maps names → IPs
-- Basic flow: Root → TLD → Authoritative server
-- Recursive resolvers, caching, TTLs
 
 Note:
 Keep it high-level. Emphasize that DNS is distributed and cached at many layers.
@@ -60,7 +58,7 @@ Keep it high-level. Emphasize that DNS is distributed and cached at many layers.
 ## Resolution Path (Typical)
 1. **Hosts file**
 2. **OS / Local resolver cache**
-3. **Network DNS** (ISP, corporate, DoH/DoT)
+3. **Network DNS** (ISP, corporate, etc)
 4. Returns the **first match**
 
 Note:
@@ -172,11 +170,10 @@ Provide a short team checklist at the end or as a gist.
 
 ---
 
-## Extra (If Time)
+## Extra Topics
 - `ddev share` (with ngrok)
-- Tailscale for DDEV
 - Local DNS servers (dnsmasq, etc.)
-- HTTPS certs with custom domains
+- Tailscale for DDEV
 
 Note:
 Optional deep dives; avoid rabbit holes if time is short.
